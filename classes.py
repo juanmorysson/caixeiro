@@ -51,14 +51,20 @@ class Grafo:
 
     @property
     def vertices(self):
-        return [vertice.__str__() for vertice in self.__lista_de_Vertices]
+        return self.__lista_de_Vertices
 
     @property
     def arestas(self):
-        return [aresta.__str__() for aresta in self.__lista_de_Arestas]
+        return self.__lista_de_Arestas
 
     def adicionar_vertice(self, vertices):
         self.__lista_de_Vertices = vertices
 
     def adicionar_arestas(self, arestas):
         self.__lista_de_Arestas = arestas
+
+def buscar_vertice(nome, vertices):
+    for v in vertices:
+        if v.nome == nome:
+            return v
+    return None
