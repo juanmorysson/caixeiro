@@ -16,6 +16,14 @@ class Aresta:
     def peso(self):
         return self.__peso
 
+    def proximo_vertice(self, v):
+        if v == self.__pontoA:
+            return self.__pontoB
+        else:
+            if v == self.__pontoB:
+                return self.__pontoA
+            else:
+                return None
     def __str__(self):
         return f'{self.__pontoA}-{self.__pontoB}: {self.__peso}'
 
@@ -63,8 +71,32 @@ class Grafo:
     def adicionar_arestas(self, arestas):
         self.__lista_de_Arestas = arestas
 
+class Caminho:
+    def __init__(self, numero, aberta):
+        self.__numero = numero
+        self.__aberta = aberta
+        self.__lista_de_arestas = []
+        self.__lista_de_Vertices = []
+
+    @property
+    def vertices(self):
+        return self.__lista_de_Vertices
+
+    @property
+    def arestas(self):
+        return self.__lista_de_arestas
+    def adicionar_aresta(self, a):
+        self.__lista_de_arestas.append(a)
+    def adicionar_vertice(self, v):
+        self.__lista_de_Vertices.append(v)
+
+    def ultimo_vertice(self):
+        return self.__lista_de_Vertices[len(self.__lista_de_Vertices)-1]
+
+
 def buscar_vertice(nome, vertices):
     for v in vertices:
         if v.nome == nome:
             return v
     return None
+

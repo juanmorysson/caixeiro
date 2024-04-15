@@ -1,53 +1,44 @@
-from classes import buscar_vertice
+from classes import buscar_vertice, Caminho, Aresta
 
 
 def forca_bruta(grafo, inicio):
-    caminho=[]
     arestas = grafo.arestas
-    vertices = grafo.vertices
-    vertice = inicio
-    while len(vertices) > 0:
-        print("AAA")
-        a, vertices, arestas, vertice = escolher_aresta(vertice, arestas, vertices)
-        if a is not None:
-            caminho.append(a)
-            print("Caminho adicionado" + str(a))
-        else:
-            print("Backtrack")
-            aresta_back = caminho[len(caminho)-1]
-            print(aresta_back)
-            print(vertice)
-            arestas.append(aresta_back)
-            vertices.append(vertice)
-            if vertice == aresta_back.pontoA:
-                back_vertice = aresta_back.pontoB
-            else:
-                back_vertice = aresta_back.pontoA
-            caminho.remove(aresta_back)
-            nova_ultima = caminho(len(caminho)-1)
-            if back_vertice == nova_ultima.pontoA:
-                vertice = nova_ultima.pontoB
-            else:
-                vertice = nova_ultima.pontoA
-            a, vertices, arestas, vertice = escolher_aresta(vertice, arestas, vertices)
-            #back tracking
-    print("BBB")
-    for c in caminho:
-        print("CC")
-        print(c)
+    arestas_disponiveis = listar_arestas_p_caminho(inicio, arestas, [])
+    for a in arestas_disponiveis:
+        c = Caminho("A", True)
+        c.adicionar_aresta(a)
+        v = a.proximo_vertice(inicio)
+        c.adicionar_vertice(v)
+        proxima_linha(v, c, arestas)
+def proxima_linha(vertice, c, arestas):
+    arestas_disponiveis = listar_arestas_p_caminho(vertice, arestas, c.vertices)
+    if len(arestas_disponiveis) > 0:
+        for index, a in enumerate(arestas_disponiveis):
+            v = a.proximo_vertice(vertice)
+            c.adicionar_aresta(a)
+            c.adicionar_vertice(v)
+            proxima_linha(v, c, arestas)
+    else:
+        estatisticas(c)
 
-def escolher_aresta(vertice, arestas, vertices):
-    print(vertice)
-    print(vertices)
+
+def estatisticas(caminho):
+    print(caminho)
+    print("Quantidade de Vértices Visitados:")
+    print(len(caminho.vertices))
+    print("Custo Total:")
+    custo = 0.0
+    for a in caminho.arestas:
+        custo = custo + float(a.peso)
+    print(custo)
+
+def listar_arestas_p_caminho(vertice, arestas, vertices_do_caminho):
+    retorno = []
     for a in arestas:
         if a.pontoA == vertice:
-            if buscar_vertice(vertice.nome, vertices) is not None:
-                arestas.remove(a)
-                vertices.remove(vertice)
-                return a, vertices, arestas, a.pontoB
+            if buscar_vertice(a.pontoB.nome, vertices_do_caminho) is None:
+                retorno.append(a)
         if a.pontoB == vertice:
-            if buscar_vertice(vertice.nome, vertices) is not None:
-                arestas.remove(a)
-                vertices.remove(vertice)
-                return a, vertices, arestas, a.pontoA
-    return None, vertices, arestas, vertice
+            if buscar_vertice(a.pontoA.nome, vertices_do_caminho) is None:
+                retorno.append(a)
+    return retorno
