@@ -1,6 +1,6 @@
 import pandas as pd
 
-from busca import forca_bruta
+from busca import forca_bruta, listar_arestas_p_caminho
 from classes import Vertice, Grafo, Aresta, buscar_vertice
 
 path = 'Grafo Pesos.xlsx'
@@ -29,3 +29,5 @@ g.adicionar_vertice(vertices)
 g.adicionar_arestas(arestas)
 
 forca_bruta(g, buscar_vertice("Teresina", vertices))
+#a = [buscar_vertice("Teresina", vertices), buscar_vertice("Altos", vertices)]
+#listar_arestas_p_caminho(buscar_vertice("Teresina", vertices), g.arestas, a)
