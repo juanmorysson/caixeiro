@@ -4,25 +4,32 @@ from classes import buscar_vertice, Caminho, Aresta
 def forca_bruta(grafo, inicio):
     arestas = grafo.arestas
     c = Caminho("A", True)
-    proxima_linha(inicio, c, arestas)
-    #arestas_disponiveis = listar_arestas_p_caminho(inicio, arestas, [])
-    #for a in arestas_disponiveis:
-    #    c = Caminho("A", True)
-    #    c.adicionar_aresta(a)
-    #    v = a.proximo_vertice(inicio)
-    #    c.adicionar_vertice(v)
-    #    proxima_linha(v, c, arestas)
-def proxima_linha(vertice, c, arestas):
+    c.adicionar_vertice(inicio)
+    proxima_linha(inicio, c, arestas, inicio)
+
+def proxima_linha(vertice, c, arestas, inicio):
     arestas_disponiveis = listar_arestas_p_caminho(vertice, arestas, c.vertices)
-    if len(arestas_disponiveis) > 0:
-        for index, a in enumerate(arestas_disponiveis):
-            v = a.proximo_vertice(vertice)
-            c.adicionar_aresta(a)
-            c.adicionar_vertice(v)
-            proxima_linha(v, c, arestas)
-    else:
-        print(len(c.vertices))
-        #estatisticas(c)
+    for index, a in enumerate(arestas_disponiveis):
+        achou = False
+        vertices_a_remover = []
+        for vert in c.vertices:
+            if achou == True:
+                vertices_a_remover.append(vert)
+            if vert == vertice:
+                achou = True
+        for vert in vertices_a_remover:
+            c.vertices.remove(vert)
+        v = a.proximo_vertice(vertice)
+        c.adicionar_aresta(a)
+        c.adicionar_vertice(v)
+        if v == inicio:
+            pass
+            #print(v.nome)
+        else:
+            proxima_linha(v, c, arestas, inicio)
+        vertice_anterior = v
+        aresta_anterior = a
+    estatisticas(c)
 
 
 def estatisticas(caminho):
@@ -38,7 +45,6 @@ def estatisticas(caminho):
 
 def listar_arestas_p_caminho(vertice, arestas, vertices_do_caminho):
     retorno = []
-    print(vertice)
     for a in arestas:
         if a.pontoA == vertice:
             if buscar_vertice(a.pontoB.nome, vertices_do_caminho) is None:
@@ -46,6 +52,4 @@ def listar_arestas_p_caminho(vertice, arestas, vertices_do_caminho):
         if a.pontoB == vertice:
             if buscar_vertice(a.pontoA.nome, vertices_do_caminho) is None:
                 retorno.append(a)
-    print("AAA")
-    print(retorno)
     return retorno

@@ -89,7 +89,10 @@ class Caminho:
         self.__lista_de_arestas.append(a)
     def adicionar_vertice(self, v):
         self.__lista_de_Vertices.append(v)
-
+    def remover_aresta(self, a):
+        self.__lista_de_arestas.remove(a)
+    def remover_vertice(self, v):
+        self.__lista_de_Vertices.remove(v)
     def ultimo_vertice(self):
         return self.__lista_de_Vertices[len(self.__lista_de_Vertices)-1]
 
