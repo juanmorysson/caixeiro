@@ -72,9 +72,7 @@ class Grafo:
         self.__lista_de_Arestas = arestas
 
 class Caminho:
-    def __init__(self, numero, aberta):
-        self.__numero = numero
-        self.__aberta = aberta
+    def __init__(self):
         self.__lista_de_arestas = []
         self.__lista_de_Vertices = []
 
@@ -103,3 +101,12 @@ def buscar_vertice(nome, vertices):
             return v
     return None
 
+def existe_aresta(pA, pB, arestas):
+    for a in arestas:
+        if pA == a.pontoA:
+            if pB == a.pontoB:
+                return a
+        if pA == a.pontoB:
+            if pB == a.pontoA:
+                return a
+    return None
