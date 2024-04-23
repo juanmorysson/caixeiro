@@ -65,35 +65,22 @@ class Grafo:
     def arestas(self):
         return self.__lista_de_Arestas
 
-    def adicionar_vertice(self, vertices):
+    def adicionar_vertices(self, vertices):
         self.__lista_de_Vertices = vertices
 
     def adicionar_arestas(self, arestas):
         self.__lista_de_Arestas = arestas
 
-class Caminho:
-    def __init__(self):
-        self.__lista_de_arestas = []
-        self.__lista_de_Vertices = []
-
-    @property
-    def vertices(self):
-        return self.__lista_de_Vertices
-
-    @property
-    def arestas(self):
-        return self.__lista_de_arestas
     def adicionar_aresta(self, a):
-        self.__lista_de_arestas.append(a)
+        self.__lista_de_Arestas.append(a)
     def adicionar_vertice(self, v):
         self.__lista_de_Vertices.append(v)
     def remover_aresta(self, a):
-        self.__lista_de_arestas.remove(a)
+        self.__lista_de_Arestas.remove(a)
     def remover_vertice(self, v):
         self.__lista_de_Vertices.remove(v)
     def ultimo_vertice(self):
         return self.__lista_de_Vertices[len(self.__lista_de_Vertices)-1]
-
 
 def buscar_vertice(nome, vertices):
     for v in vertices:

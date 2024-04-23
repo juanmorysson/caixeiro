@@ -1,15 +1,15 @@
-from classes import buscar_vertice, Caminho, Aresta, existe_aresta
+from classes import buscar_vertice, Aresta, existe_aresta, Grafo
 
 
 def forca_bruta(grafo, inicio):
     # O(1)
     arestas = grafo.arestas
+    # O(1) - cria o grafo caminho
+    caminho = Grafo()
     # O(1)
-    c = Caminho()
-    # O(1)
-    c.adicionar_vertice(inicio)
+    caminho.adicionar_vertice(inicio)
     # T(1) = 1
-    proxima_linha(inicio, c, arestas, inicio)
+    proxima_linha(inicio, caminho, arestas, inicio)
 
 def proxima_linha(vertice, c, arestas, inicio):
     arestas_disponiveis = listar_arestas_p_caminho(vertice, arestas, c.vertices)
@@ -37,7 +37,7 @@ def proxima_linha(vertice, c, arestas, inicio):
 
 def estatisticas(caminho, inicio, arestas):
     if len(caminho.vertices)>14:
-        c1 = Caminho()
+        c1 = Grafo()
         for a1 in caminho.arestas:
             c1.adicionar_aresta(a1)
         for v1 in caminho.vertices:

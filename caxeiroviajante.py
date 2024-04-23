@@ -30,7 +30,7 @@ for i, a in df.iterrows():
 #cria o grafo
 g = Grafo()
 #adiciona os vertices
-g.adicionar_vertice(vertices)
+g.adicionar_vertices(vertices)
 #adiciona as arestas
 g.adicionar_arestas(arestas)
 
