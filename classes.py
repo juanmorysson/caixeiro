@@ -81,6 +81,8 @@ class Grafo:
         self.__lista_de_Vertices.remove(v)
     def ultimo_vertice(self):
         return self.__lista_de_Vertices[len(self.__lista_de_Vertices)-1]
+    def ultima_aresta(self):
+        return self.__lista_de_Arestas[len(self.__lista_de_Arestas)-1]
 
 def buscar_vertice(nome, vertices):
     for v in vertices:
@@ -97,3 +99,15 @@ def existe_aresta(pA, pB, arestas):
             if pB == a.pontoA:
                 return a
     return None
+
+def existe_grafo_v(grafo, lista):
+    for g in lista:
+        if len(g) == len(grafo.vertices):
+            existe = True
+            for i in range(0, len(grafo.vertices)):
+                if g[i] != grafo.vertices[i]:
+                    existe = False
+            if existe == True:
+                return True
+    return False
+
