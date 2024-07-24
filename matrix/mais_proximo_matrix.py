@@ -2,7 +2,8 @@ import numpy as np
 import sys
 sys.setrecursionlimit(300000000)
 
-def mais_proximo(grafo, vertice, caminho = [], invalidos = []):
+solucao = []
+def mais_proximo(grafo, vertice, caminho = [], invalidos = [], retorno = []):
     caminho.append(vertice)
     vertices_disponiveis = listar_vertices_adjacentes_disponiveis_p_caminho(vertice, grafo, caminho)
     #rejeitar caminhos inválidos
@@ -19,7 +20,7 @@ def mais_proximo(grafo, vertice, caminho = [], invalidos = []):
             if grafo[vertice][vd]<menor:
                 menor=grafo[vertice][vd]
                 v_menor = vd
-        mais_proximo(grafo, v_menor, caminho, invalidos)
+        mais_proximo(grafo, v_menor, caminho, invalidos, retorno)
     else:
         m, n = np.array(grafo).shape
         if (len(caminho) < m):
@@ -27,39 +28,35 @@ def mais_proximo(grafo, vertice, caminho = [], invalidos = []):
             caminho.pop()
             vertice = caminho[-1]
             caminho.pop()
-            mais_proximo(grafo, vertice, caminho, invalidos)
+            mais_proximo(grafo, vertice, caminho, invalidos, retorno)
         else:
-            primeiro = caminho[0]
             ultimovertice = caminho[-1]
-            if grafo[primeiro][ultimovertice] == 0:
-                print("Invalido Final")
-                invalidos.append(caminho.copy())
-                caminho.pop()
-                vertice = caminho[-1]
-                caminho.pop()
-                mais_proximo(grafo, vertice, caminho, invalidos)
-            else:
-                custo = 0.0
-                aux = -1
-                for i in caminho:
-                    if aux > -1:
-                        custo = custo + float(grafo[i][aux])
-                    aux = i
-                print("Caminho: "+str(caminho))
-                print("Custo: "+str(round(custo,2)))
+            custo = 0.0
+            aux = -1
+            for i in caminho:
+                if aux > -1:
+                    custo = custo + float(grafo[i][aux])
+                aux = i
+            custo = custo + retorno[ultimovertice]
+            solucao.clear()
+            solucao.append(caminho)
+            solucao.append(round(custo, 2))
+            #print("Caminho: "+str(caminho))
+            #print("Custo: "+str(round(custo,2)))
+    return solucao
 
 def listar_vertices_adjacentes_disponiveis_p_caminho(vertice, grafo, caminho):
-    retorno = []
+    lista = []
     vertices = grafo[vertice]
     for i, v in enumerate(vertices):
         if v !=0:
-            retorno.append(i)
+            lista.append(i)
     for v in caminho:
         try:
-            retorno.remove(v)
+            lista.remove(v)
         except:
             pass
-    return retorno
+    return lista
 
 
 '''

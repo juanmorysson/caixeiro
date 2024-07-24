@@ -1,14 +1,23 @@
-caminhos = []
+import numpy as np
 
-def forca_bruta(grafo, inicio):
+caminhos = []
+retorno = []
+
+def forca_bruta(grafo, inicio, ret):
+    for r in ret:
+        retorno.append(r)
     caminho = []
     caminho.append(inicio)
-    proxima_linha(inicio, caminho, grafo, inicio)
+    proxima_linha(inicio, caminho, grafo)
+    '''
     for c in caminhos:
         print(c)
+    '''
 
-def proxima_linha(vertice, caminho, grafo, inicio):
+def proxima_linha(vertice, caminho, grafo):
     vertices_disponiveis = listar_vertices_adjacentes_disponiveis_p_caminho(vertice, grafo, caminho)
+    #print(vertices_disponiveis)
+    #print(caminho)
     for index, v in enumerate(vertices_disponiveis):
         achou = False
         vertices_a_remover = []
@@ -20,45 +29,34 @@ def proxima_linha(vertice, caminho, grafo, inicio):
         for vert in vertices_a_remover:
             caminho.remove(vert)
         caminho.append(v)
-        proxima_linha(v, caminho, grafo, inicio)
+        #print("QQQ")
+        proxima_linha(v, caminho, grafo)
     if len(vertices_disponiveis)<1:
-        estatisticas(caminho, inicio, grafo)
+        estatisticas(caminho, grafo)
 
 
-def estatisticas(caminho, inicio, grafo):
-    if len(caminho)<=14:
-        #print(caminho)
-        #print("Inválido")
-        pass
-    else:
+def estatisticas(caminho, grafo):
+    m, n = np.array(grafo).shape
+    if len(caminho)>m-1:
         ultimovertice = caminho[-1]
-        if grafo[inicio][ultimovertice] == 0:
-            #print("Caminho Inválido Final")
-            #print(caminho)
-            pass
-        else:
-            caminho.append(inicio)
-            #print("Caminho:::::::::"+str(len(caminho)))
-            #print(caminho)
-            custo = 0.0
-            aux = -1
-            for i in caminho:
-                if aux > -1:
-                    custo = custo + float(grafo[i][aux])
-                aux = i
-            #print("Custo Total: "+str(round(custo, 2)))
-            caminhos.append([caminho.copy(), round(custo, 2)])
-            caminho.pop()
+        custo = 0.0
+        aux = -1
+        for i in caminho:
+            if aux > -1:
+                custo = custo + float(grafo[i][aux])
+            aux = i
+        custo = custo + retorno[ultimovertice]
+        caminhos.append([caminho.copy(), round(custo, 2)])
 
 def listar_vertices_adjacentes_disponiveis_p_caminho(vertice, grafo, caminho):
-    retorno = []
+    lista = []
     vertices = grafo[vertice]
     for i, v in enumerate(vertices):
         if v !=0:
-            retorno.append(i)
+            lista.append(i)
     for v in caminho:
         try:
-            retorno.remove(v)
+            lista.remove(v)
         except:
             pass
-    return retorno
+    return lista
